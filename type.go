@@ -1,40 +1,40 @@
 package json
 
 type CheckedValue interface {
-	value() interface{}
-	isValid() bool
+	Value() interface{}
+	IsValid() bool
 }
 
 type checkedValue struct {
-	Value   interface{}
-	IsValid bool
+	value   interface{}
+	isValid bool
 }
 
 func Check(val interface{}, err error) CheckedValue {
 	if err != nil {
 		return checkedValue{
-			Value:   nil,
-			IsValid: false,
+			value:   nil,
+			isValid: false,
 		}
 	}
 
 	return checkedValue{
-		Value:   val,
-		IsValid: true,
+		value:   val,
+		isValid: true,
 	}
 }
 
 func Value(val interface{}) CheckedValue {
 	return checkedValue {
-		Value:   val,
-		IsValid: true,
+		value:   val,
+		isValid: true,
 	}
 }
 
-func (m checkedValue) value() interface{} {
-	return m.Value
+func (m checkedValue) Value() interface{} {
+	return m.value
 }
 
-func (m checkedValue) isValid() bool {
-	return m.IsValid
+func (m checkedValue) IsValid() bool {
+	return m.isValid
 }
