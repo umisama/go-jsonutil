@@ -44,8 +44,8 @@ func (m ObjectT) Marshal() []byte {
 func (m ObjectT) clean() map[string]interface{} {
 	ret := make(map[string]interface{})
 	for k, v := range m {
-		if v.IsValid {
-			switch vt := v.Value.(type) {
+		if v.isValid() {
+			switch vt := v.value().(type) {
 			case ObjectT:
 				ret[k] = vt.clean()
 			case ArrayT:
@@ -65,8 +65,8 @@ func (m ArrayT) Marshal() []byte {
 func (m ArrayT) clean() []interface{} {
 	ret := make([]interface{}, 0, len(m))
 	for _, v := range m {
-		if v.IsValid {
-			switch vt := v.Value.(type) {
+		if v.isValid() {
+			switch vt := v.value().(type) {
 			case ObjectT:
 				ret = append(ret, vt.clean())
 			case ArrayT:
@@ -85,4 +85,20 @@ func marshal(i interface{}) []byte {
 		panic(err)
 	}
 	return buf
+}
+
+func (m *ObjectT) isValid() bool {
+	return true
+}
+
+func (m *ObjectT) value() interface{} {
+	return m
+}
+
+func (m *ArrayT) isValid() bool {
+	return true
+}
+
+func (m *ArrayT) value() interface{} {
+	return m
 }

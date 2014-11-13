@@ -57,7 +57,7 @@ func TestObjectMarshal(t *testing.T) {
 	cases := []testcase{
 		{ObjectT{"test":Value("hello"), "test2": Value("testtest") }, []byte(`{"test":"hello","test2":"testtest"}`)},
 		{ObjectT{"test":Value("hello"), "test2": Value(nil) }, []byte(`{"test":"hello","test2":null}`)},
-		{ObjectT{"test":Value("hello"), "test2": CheckedValue{Value:"testtest", IsValid:false}}, []byte(`{"test":"hello"}`)},
+		{ObjectT{"test":Value("hello"), "test2": checkedValue{Value:"testtest", IsValid:false}}, []byte(`{"test":"hello"}`)},
 		{ObjectT{"test":Value(ObjectT{"test":Value("test")})}, []byte(`{"test":{"test":"test"}}`)},
 		{ObjectT{"test":Value(ArrayT{Value("hoge"),Value("hoge2")})}, []byte(`{"test":["hoge","hoge2"]}`)},
 	}
@@ -76,9 +76,9 @@ func TestArrayMarshal(t *testing.T) {
 	cases := []testcase{
 		{ArrayT{Value("hello"), Value("testtest")}, []byte(`["hello","testtest"]`)},
 		{ArrayT{Value("hello"), Value(nil)}, []byte(`["hello",null]`)},
-		{ArrayT{Value("hello"), CheckedValue{Value:"testtest", IsValid:false}}, []byte(`["hello"]`)},
-		{ArrayT{Value(ObjectT{"hello":Value("hihi")}), CheckedValue{Value:"testtest", IsValid:false}}, []byte(`[{"hello":"hihi"}]`)},
-		{ArrayT{Value(ArrayT{Value("hihi")}), CheckedValue{Value:"testtest", IsValid:false}}, []byte(`[["hihi"]]`)},
+		{ArrayT{Value("hello"), checkedValue{Value:"testtest", IsValid:false}}, []byte(`["hello"]`)},
+		{ArrayT{Value(ObjectT{"hello":Value("hihi")}), checkedValue{Value:"testtest", IsValid:false}}, []byte(`[{"hello":"hihi"}]`)},
+		{ArrayT{Value(ArrayT{Value("hihi")}), checkedValue{Value:"testtest", IsValid:false}}, []byte(`[["hihi"]]`)},
 	}
 
 	for i, c := range cases {
